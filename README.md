@@ -192,7 +192,3 @@ It is not suitable for real-world financial use without additional compliance, a
 **Ali Ahmed**  
 Full-Stack Developer (Frontend-Focused)  
 Specialized in modern web applications and fintech-style system design
-
----
-
-> _Correctness first. Features second. Everything else is negotiable._
