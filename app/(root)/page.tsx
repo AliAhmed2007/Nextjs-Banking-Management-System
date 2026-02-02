@@ -1,9 +1,11 @@
 import HeaderBox from "@/components/HeaderBox";
 import RightSideBar from "@/components/RightSideBar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
+import { getLoggedInUser } from "@/lib/user.actions";
 
-function Dashbaord() {
-  const loggedIn = { firstName: "Ali", lastName: "Ahmed", email: "ali-ahmed@gmail.com" };
+async function Dashbaord() {
+  const loggedUser = await getLoggedInUser();
+
   return (
     <section className="home">
       <div className="home-content">
@@ -12,12 +14,20 @@ function Dashbaord() {
             title="Welcome"
             subtext="Access and Manage your account and transactions effiecently."
             type="greeting"
-            user={loggedIn?.firstName || "Guest"}
+            user={loggedUser?.name || "Guest"}
           />
-          <TotalBalanceBox accounts={[]} totalBanks={1} totalCurrentBalance={2500.20}/>
+          <TotalBalanceBox
+            accounts={[]}
+            totalBanks={1}
+            totalCurrentBalance={2500.2}
+          />
         </header>
       </div>
-      <RightSideBar user={loggedIn} banks={[{currentBalance: 500.50}, {currentBalance: 500.50}]} transactions={[]}/>
+      <RightSideBar
+        user={loggedUser}
+        banks={[{ currentBalance: 500.5 }, { currentBalance: 500.5 }]}
+        transactions={[]}
+      />
     </section>
   );
 }
