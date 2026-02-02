@@ -1,36 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏦 Horizon — Modern Fintech Banking Platform
 
-## Getting Started
+Horizon is a **production-grade online banking platform** designed to mirror how real-world fintech systems are architected, built, and operated.
 
-First, run the development server:
+This is **not a demo project** or a toy budget tracker.  
+Horizon prioritizes **correctness, security, scalability, and observability**, aligning closely with modern digital banking and financial SaaS standards.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Project Vision
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Horizon simulates a modern digital bank experience, including:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Secure user authentication and onboarding
+- Multi-bank account aggregation
+- Real-time balances and transaction syncing
+- Peer-to-peer money transfers using real payment rails
+- Server-first architecture with strong data integrity guarantees
 
-## Learn More
+Every design decision favors **system reliability over shortcuts**.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧠 Core Architectural Principles
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Server-first execution**  
+  All sensitive logic is executed on the server using Next.js Server Actions.
 
-## Deploy on Vercel
+- **Atomic operations**  
+  Critical financial workflows either fully succeed or fully fail.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Clear trust boundaries**  
+  The browser acts as a UI shell; business logic never leaks client-side.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Production-grade observability**  
+  Errors and performance issues are traceable by default.
+
+- **Separation of concerns**  
+  User identity, financial data, and money movement are intentionally decoupled.
+
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & Onboarding
+- Secure sign-up and sign-in flows
+- Server-Side Rendering (SSR) authentication
+- Compliance-oriented onboarding data (DOB, address, SSN)
+- No client-side authentication shortcuts
+
+---
+
+### 📊 Financial Dashboard
+- Aggregated account balances
+- Recent transaction snapshots
+- Spending insights by category
+- Visualized financial data using charts
+
+---
+
+### 🏦 Bank Account Management
+- Connect multiple bank accounts per user
+- Real-time balance and transaction syncing
+- Dedicated “My Banks” view
+- Shareable bank identifiers for transfers
+
+---
+
+### 💸 Money Transfers
+- Peer-to-peer transfers between Horizon users
+- Transfers processed through a real payment processor
+- Source account selection and transfer notes
+- No mock or simulated money logic
+
+---
+
+### 📜 Transaction History
+- Paginated transaction history
+- Bank-specific filtering
+- Dynamic routing for transaction views
+- Designed to scale with data growth
+
+---
+
+## 🧩 System Architecture
+Browser (UI)
+↓
+Next.js App Router (SSR)
+↓
+Server Actions (Commands)
+↓
+Appwrite (Auth + Database)
+↓
+External Services
+├─ Plaid (Financial Data)
+└─ Dwolla (Money Movement)
+
+
+This architecture enforces:
+- Secure execution
+- Deterministic rendering
+- Clear system boundaries
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend & Framework
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Shadcn UI**
+
+---
+
+### Forms & Validation
+- **React Hook Form**
+- **Zod** (schema-based validation)
+
+---
+
+### Backend & Infrastructure
+- **Appwrite** (Authentication, Database, Sessions)
+- **Next.js Server Actions**
+
+---
+
+### Banking & Payments
+- **Plaid** — Bank account linking and financial data
+- **Dwolla** — Payment processing and fund transfers
+
+---
+
+### Observability & Monitoring
+- **Sentry**
+  - Error tracking
+  - Performance monitoring
+  - Session replay with sensitive data masking
+
+---
+
+## 🔒 Security Considerations
+
+- Authentication handled exclusively on the server
+- No sensitive logic or secrets exposed to the client
+- Strict input validation and data contracts
+- Explicit handling of pending and failed financial operations
+
+---
+
+## 📐 UI / UX Design
+
+- Fully designed in **Figma** before implementation
+- Mobile-first and responsive by default
+- Accessible, consistent, and scalable UI patterns
+- Reusable components to minimize maintenance overhead
+
+---
+
+## 🧪 Why This Project Matters
+
+Horizon demonstrates:
+- Real-world fintech system architecture
+- Correct handling of financial state
+- SSR-safe UI composition
+- Awareness of failure modes and system invariants
+
+This project reflects **how serious systems are built**, not how tutorials are followed.
+
+---
+
+## 📌 Project Status
+
+🚧 **Active Development**
+
+Ongoing focus areas:
+- Explicit failure handling
+- Stronger domain boundaries
+- Clear state transitions for financial operations
+
+---
+
+## 📄 License
+
+This project is intended for **educational and portfolio purposes only**.  
+It is not suitable for real-world financial use without additional compliance, audits, and security reviews.
+
+---
+
+## 👤 Author
+
+**Ali Ahmed**  
+Full-Stack Developer (Frontend-Focused)  
+Specialized in modern web applications and fintech-style system design
