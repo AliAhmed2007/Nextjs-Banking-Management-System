@@ -14,13 +14,14 @@ import { Loader2 } from "lucide-react";
 import { authFormSchema } from "@/lib/utils";
 import { signIn, signUp } from "@/lib/user.actions";
 import { useRouter } from "next/navigation";
+import PlaidLink from "./PlaidLink";
 
 function AuthForm({ type }: { type: string }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const formSchema = authFormSchema(type);
 
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,22 +32,34 @@ function AuthForm({ type }: { type: string }) {
     mode: "onChange",
   });
 
-  async function onSubmit(userData: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    if (isLoading) return; // to prevent multiple submissions
     try {
       setIsLoading(true);
       if (type === "sign-up") {
+        const userData = {
+          firstName: data.firstName!,
+          lastName: data.lastName!,
+          address1: data.address1!,
+          city: data.city!,
+          state: data.state!,
+          postalCode: data.postalCode!,
+          dateOfBirth: data.dateOfBirth!,
+          ssn: data.ssn!,
+          email: data.email,
+          password: data.password,
+        };
         const newUser = await signUp(userData);
         setUser(newUser);
       }
 
-      if (type === 'sign-in') {
+      if (type === "sign-in") {
         const userLogged = await signIn({
-          email: userData.email,
-          password: userData.password
-        })
+          email: data.email,
+          password: data.password,
+        });
 
-        if (userLogged) router.push('/')
-
+        if (userLogged) router.push("/");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -79,14 +92,12 @@ function AuthForm({ type }: { type: string }) {
               ? "Link your account to get started"
               : "Please Enter your Details"}
           </p>
-          {user
-          ? <Link href='/sign-in' className="form-btn w-24 py-3 text-center">Link Now</Link>
-        : null
-        }
         </div>
       </header>
       {user ? (
-        <div className="flex flex-col gap-4">{/* PlaidLink */}</div>
+        <div className="flex flex-col gap-4">
+          <PlaidLink user={user} variant="primary" />
+        </div>
       ) : (
         <>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -186,7 +197,11 @@ function AuthForm({ type }: { type: string }) {
               )}
             </FieldGroup>
             <div className="flex flex-col gap-4">
-              <Button className="form-btn mt-8" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="form-btn mt-8"
+                disabled={isLoading}
+              >
                 {isLoading ? (
                   <>
                     <Loader2 size={20} className="animate-spin" /> &nbsp;

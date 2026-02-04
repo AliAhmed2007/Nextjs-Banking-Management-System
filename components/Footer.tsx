@@ -1,5 +1,4 @@
 import { logoutAccount } from "@/lib/user.actions";
-import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +13,7 @@ function Footer({ user, type }: FooterProps) {
   return (
     <footer className="footer">
       <div className={type === "mobile" ? "footer_name-mobile" : "footer_name"}>
-        <p className="text-xl font-bold text-gray-700">{user.name[0]}</p>
+        <p className="text-xl font-bold text-gray-700">{user?.name[0]}</p>
       </div>
 
       <div
