@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "./Footer";
+import PlaidLink from "./PlaidLink";
 
 function Sidebar({ user }: SiderbarProps) {
   const pathname = usePathname();
@@ -37,13 +38,18 @@ function Sidebar({ user }: SiderbarProps) {
                   src={item.imgURL}
                   alt={item.label}
                   fill
-                  className={cn({'brightness-[3] invert-0' : isActive})}
+                  className={cn({ "brightness-[3] invert-0": isActive })}
                 />
               </div>
-              <span className={cn("sidebar-label", {"!text-white": isActive})}>{item.label}</span>
+              <span
+                className={cn("sidebar-label", { "!text-white": isActive })}
+              >
+                {item.label}
+              </span>
             </Link>
           );
         })}
+        <PlaidLink user={user} />
       </nav>
 
       <Footer user={user} type="desktop" />
