@@ -14,7 +14,7 @@ async function page() {
       <div className="my-banks">
         <HeaderBox
           title="My Bank Accounts"
-          subtext="Effortlessly manageyour banking activities."
+          subtext="Effortlessly manage your banking activities."
         />
 
         <div className="space-y-4">

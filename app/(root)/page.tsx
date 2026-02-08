@@ -5,8 +5,10 @@ import TotalBalanceBox from "@/components/TotalBalanceBox";
 import { getAccount, getAccounts } from "@/lib/bank.actions";
 import { getLoggedInUser } from "@/lib/user.actions";
 
-async function Dashbaord({ searchParams: { id, page } }: SearchParamProps) {
-  const pageNumber = Number(page as string)
+async function Dashbaord({
+  searchParams: { id, page = "1" },
+}: SearchParamProps) {
+  const pageNumber = Number(page as string);
   const loggedUser = await getLoggedInUser();
   const accounts = await getAccounts({ userId: loggedUser.$id });
   if (!accounts) return;
@@ -42,7 +44,7 @@ async function Dashbaord({ searchParams: { id, page } }: SearchParamProps) {
       <RightSideBar
         user={loggedUser}
         banks={accountsData.slice(0, 2)}
-        transactions={accounts?.transactions}
+        transactions={account?.transactions}
       />
     </section>
   );
