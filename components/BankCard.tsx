@@ -32,7 +32,7 @@ function BankCard({account, userName, showBalance}: CreditCardProps) {
         </div>
         <div className="bank-card_icon">
             <Image
-                src="/icons/paypass.svg"
+                src="/icons/Paypass.svg"
                 width={20}
                 height={24}
                 alt='pay'
