@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import HeaderBox from "@/components/HeaderBox";
 import { Pagination } from "@/components/Pagination";
 import TransactionsTable from "@/components/TransactionsTable";
@@ -9,7 +10,7 @@ async function page({ searchParams: { id, page = "1" } }: SearchParamProps) {
   const pageNumber = Number(page as string);
 
   const loggedUser = await getLoggedInUser();
-  const accounts = await getAccounts({ userId: loggedUser.$id });
+  const accounts = await getAccounts({ userId: loggedUser!.$id });
   if (!accounts) return;
 
   const accountsData = accounts?.data;
