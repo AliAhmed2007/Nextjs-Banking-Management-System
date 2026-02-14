@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import MobileNavbar from "@/components/MobileNavbar";
 import Sidebar from "@/components/Sidebar";
 import { getLoggedInUser } from "@/lib/user.actions";
