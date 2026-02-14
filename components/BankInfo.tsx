@@ -69,6 +69,6 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
       </div>
     </div>
   );
-};[]
+}
 
 export default BankInfo;

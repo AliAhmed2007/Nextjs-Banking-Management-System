@@ -9,7 +9,6 @@ import * as z from "zod";
 
 import {
   createTransfer,
-  simulateTransferProcessing,
 } from "@/lib/dwolla.actions";
 import { createTransaction } from "@/lib/transaction.actions";
 import { getBank, getBankByAccountId } from "@/lib/user.actions";
