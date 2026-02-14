@@ -54,7 +54,6 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
 
     try {
       const receiverAccountId = decryptId(data.shareableId);
-      console.log("Decrypted Account ID:", receiverAccountId);
 
       const receiverBank = await getBankByAccountId({
         accountId: receiverAccountId,

@@ -1,12 +1,7 @@
 "use server";
 
 import {
-    ACHClass,
     CountryCode,
-    TransferAuthorizationCreateRequest,
-    TransferCreateRequest,
-    TransferNetwork,
-    TransferType,
 } from "plaid";
 
 import { plaidClient } from "@/lib/plaid";
@@ -14,6 +9,94 @@ import { parseStringify } from "@/lib/utils";
 
 import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
+
+
+export const getDashboardData = async ({
+    userId,
+    selectedBankId,
+}: {
+    userId: string,
+    selectedBankId?: string
+}) => {
+    try {
+        const banks = await getBanks({ userId });
+
+        if (!banks?.length) return null;
+
+        // Fetch all accounts in parallel
+        const accounts = await Promise.all(
+            banks.map(async (bank: Bank) => {
+                const accountsResponse = await plaidClient.accountsGet({
+                    access_token: bank.accessToken,
+                });
+
+                const accountData = accountsResponse.data.accounts[0];
+
+                return {
+                    id: accountData.account_id,
+                    availableBalance: accountData.balances.available!,
+                    currentBalance: accountData.balances.current!,
+                    name: accountData.name,
+                    mask: accountData.mask!,
+                    appwriteItemId: bank.$id,
+                    accessToken: bank.accessToken,
+                };
+            })
+        );
+
+        const selected =
+            selectedBankId
+                ? accounts.find(a => a.appwriteItemId === selectedBankId)
+                : accounts[0];
+
+        if (!selected) return null;
+
+        // Fetch transactions only for selected
+        const [plaidTransactions, transferTransactionsData] =
+            await Promise.all([
+                getTransactions({ accessToken: selected.accessToken }),
+                getTransactionsByBankId({ bankId: selected.appwriteItemId }),
+            ]);
+
+        const transferTransactions =
+            transferTransactionsData.documents.map((t: Transaction) => ({
+                id: t.$id,
+                name: t.name!,
+                amount: t.amount!,
+                date: t.$createdAt,
+                type:
+                    t.senderBankId === selected.appwriteItemId
+                        ? "debit"
+                        : "credit",
+            }));
+
+        const allTransactions = [
+            ...plaidTransactions,
+            ...transferTransactions,
+        ].sort(
+            (a, b) =>
+                new Date(b.date).getTime() -
+                new Date(a.date).getTime()
+        );
+
+        const totalCurrentBalance = accounts.reduce(
+            (total, acc) => total + acc.currentBalance,
+            0
+        );
+
+        return {
+            accounts,
+            selectedAccount: selected,
+            transactions: allTransactions,
+            totalBanks: accounts.length,
+            totalCurrentBalance,
+        };
+
+    } catch (error) {
+        console.error("Dashboard fetch failed:", error);
+    }
+};
+
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
@@ -113,6 +196,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
             appwriteItemId: bank.$id,
         };
 
+        // merging recent transactions from plaid of the bank itself and transactions from appwrite transactions table (which are done in our horizon app)
         // sort transactions by date such that the most recent transaction is first
         const allTransactions = [...transactions, ...transferTransactions].sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()

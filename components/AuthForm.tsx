@@ -59,6 +59,20 @@ function AuthForm({ type }: { type: string }) {
           password: data.password,
         });
 
+        if (!userLogged) {
+          // Programmatically set an error on the email field
+          form.setError("email", {
+            type: "manual",
+            message: "Maybe Email not found",
+          });
+
+          form.setError("password", {
+            type: "manual",
+            message: "Or Make sure Password of your email is correct",
+          });
+          return;
+        }
+
         if (userLogged) router.push("/");
       }
     } catch (error) {

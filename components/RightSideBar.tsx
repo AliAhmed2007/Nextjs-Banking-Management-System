@@ -6,7 +6,7 @@ import Category from "./Category";
 
 function RightSideBar({ banks, transactions, user }: RightSidebarProps) {
   const categories: CategoryCount[] = countTransactionCategories(transactions);
-  console.log(categories);
+
   return (
     <aside className="right-sidebar">
       <section className="flex flex-col pb-4">

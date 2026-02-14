@@ -26,7 +26,7 @@ export async function getUserInfo({ userId }: getUserInfoProps) {
 
         return parseStringify(user.documents[0])
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 
@@ -254,7 +254,7 @@ export async function getBanks({ userId }: getBanksProps) {
 
         return parseStringify(banks.documents)
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 
@@ -269,7 +269,7 @@ export async function getBank({ bankId }: getBankProps) {
 
         return parseStringify(bank.documents[0])
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 
@@ -286,6 +286,6 @@ export async function getBankByAccountId({ accountId }: getBankByAccountIdProps)
 
         return parseStringify(bank.documents[0])
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
